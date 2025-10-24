@@ -302,7 +302,8 @@ class Target {
         }
         $hdrSupported = $advancedColorInfo.values.HasFlag([DisplayConfig+DisplayConfigGetAdvancedColorInfoValues]::AdvancedColorSupported)
         $hdrEnabled = $advancedColorInfo.values.HasFlag([DisplayConfig+DisplayConfigGetAdvancedColorInfoValues]::AdvancedColorEnabled)
-        return [HdrInfo]::new($hdrSupported, $hdrEnabled, $advancedColorInfo.bitsPerColorChannel)
+        $wideColorEnforced = $advancedColorInfo.values.HasFlag([DisplayConfig+DisplayConfigGetAdvancedColorInfoValues]::WideColorEnforced)
+        return [HdrInfo]::new($hdrSupported, $hdrEnabled -and (-not $wideColorEnforced), $advancedColorInfo.bitsPerColorChannel)
     }
 
     # Recommended target resolution per EDID (note recommended refresh rate is not available)
